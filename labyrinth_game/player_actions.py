@@ -1,7 +1,9 @@
 import labyrinth_game.utils as utils
 from labyrinth_game.constants import ROOMS
 
+
 def show_inventory(game_state: dict) -> None:
+    """Печатает содержимое инвентаря игрока из game_state."""
     inventory = game_state['player_inventory']
     if inventory:
         print(', '.join(inventory))
@@ -9,6 +11,7 @@ def show_inventory(game_state: dict) -> None:
         print('Инвентарь пуст.')
 
 def move_player(game_state: dict, direction: str) -> None:
+    """Перемещает игрока в указанном направлении."""
     current_room_name = game_state['current_room']
     current_room = ROOMS[current_room_name]
     exits = current_room['exits']
@@ -17,17 +20,21 @@ def move_player(game_state: dict, direction: str) -> None:
         return
     next_room_name = exits[direction]
     if next_room_name == 'treasure_room':
-        if "rusty_key" not in game_state["player_inventory"]:
-            print("Дверь заперта. Нужен ключ, чтобы пройти дальше.")
+        if 'rusty_key' not in game_state['player_inventory']:
+            print('Дверь заперта. Нужен ключ, чтобы пройти дальше.')
             return
         else:
-            print("Вы используете найденный ключ, чтобы открыть путь в комнату сокровищ.")
+            print(
+                'Вы используете найденный ключ, '
+                'чтобы открыть путь в комнату сокровищ.'
+            )
     game_state['current_room'] = next_room_name
     game_state['steps_taken'] = game_state['steps_taken'] + 1
     utils.describe_current_room(game_state)
     utils.random_event(game_state)
 
 def take_item(game_state: dict, item_name: str) -> None:
+    """Подбирает предмет из текущей комнаты."""
     if item_name == 'treasure_chest':
         print('Вы не можете поднять сундук, он слишком тяжелый.')
         return
@@ -42,6 +49,7 @@ def take_item(game_state: dict, item_name: str) -> None:
         print('Такого предмета здесь нет.')
 
 def use_item(game_state: dict, item_name: str) -> None:
+    """Использует указанный предмет из инвентаря."""
     inventory = game_state['player_inventory']
     if item_name not in inventory:
         print('У вас нет такого предмета.')

@@ -12,6 +12,7 @@ game_state = {
 }
 
 def process_command(game_state: dict, command: str) -> None:
+    """Обработка введённой пользователем строки."""
     parts = command.strip().split(maxsplit=1)
     cmd = parts[0].lower() if parts else ""
     arg = parts[1].strip() if len(parts) == 2 else ""
@@ -56,6 +57,7 @@ def process_command(game_state: dict, command: str) -> None:
             print("Неизвестная команда.")
 
 def main():
+    """Точка входа: приветствие, стартовое описание комнаты и основной цикл."""
     print("Добро пожаловать в Лабиринт сокровищ!")
     utils.describe_current_room(game_state)
     while not game_state["game_over"]:
